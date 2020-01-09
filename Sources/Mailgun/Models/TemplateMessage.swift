@@ -1,9 +1,10 @@
 import Vapor
+import AnyCodable
 
 extension Mailgun {
     public struct TemplateMessage: Content {
         public static var defaultContentType: MediaType = .formData
-        
+        public typealias Data = [String: AnyCodable]
         public typealias FullEmail = (email: String, name: String?)
         
         public let from: String
@@ -13,7 +14,7 @@ extension Mailgun {
         public let bcc: String?
         public let subject: String
         public let template: String
-        public let templateData: [String:String]?
+        public let templateData: TemplateMessage.Data?
         public let templateVersion: String?
         public let templateText: Bool?
         public let attachment: [File]?
@@ -55,7 +56,7 @@ extension Mailgun {
             try container.encode(inline, forKey: .inline)
         }
         
-        public init(from: String, to: String, replyTo: String? = nil, cc: String? = nil, bcc: String? = nil, subject: String, template: String, templateData: [String:String]? = nil, templateVersion: String? = nil, templateText: Bool? = nil, attachments: [File]? = nil, inline: [File]? = nil) {
+        public init(from: String, to: String, replyTo: String? = nil, cc: String? = nil, bcc: String? = nil, subject: String, template: String, templateData: TemplateMessage.Data? = nil, templateVersion: String? = nil, templateText: Bool? = nil, attachments: [File]? = nil, inline: [File]? = nil) {
             self.from = from
             self.to = to
             self.replyTo = replyTo
@@ -70,7 +71,7 @@ extension Mailgun {
             self.inline = inline
         }
         
-        public init(from: String, to: [String], replyTo: String? = nil, cc: [String]? = nil, bcc: [String]? = nil, subject: String, template: String, templateData: [String:String]? = nil,  templateVersion: String? = nil, templateText: Bool? = nil, attachments: [File]? = nil, inline: [File]? = nil) {
+        public init(from: String, to: [String], replyTo: String? = nil, cc: [String]? = nil, bcc: [String]? = nil, subject: String, template: String, templateData: TemplateMessage.Data? = nil,  templateVersion: String? = nil, templateText: Bool? = nil, attachments: [File]? = nil, inline: [File]? = nil) {
             self.from = from
             self.to = to.joined(separator: ",")
             self.replyTo = replyTo
@@ -85,7 +86,7 @@ extension Mailgun {
             self.inline = inline
         }
         
-        public init(from: String, to: [FullEmail], replyTo: String? = nil, cc: [FullEmail]? = nil, bcc: [FullEmail]? = nil, subject: String, template: String, templateData: [String:String]? = nil, templateVersion: String? = nil, templateText: Bool? = nil, attachments: [File]? = nil, inline: [File]? = nil) {
+        public init(from: String, to: [FullEmail], replyTo: String? = nil, cc: [FullEmail]? = nil, bcc: [FullEmail]? = nil, subject: String, template: String, templateData: TemplateMessage.Data? = nil, templateVersion: String? = nil, templateText: Bool? = nil, attachments: [File]? = nil, inline: [File]? = nil) {
             self.from = from
             self.to = to.stringArray.joined(separator: ",")
             self.replyTo = replyTo

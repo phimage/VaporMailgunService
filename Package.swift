@@ -12,7 +12,8 @@ let package = Package(
             targets: ["Mailgun"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/vapor/vapor.git", from: "3.3.0")
+        .package(url: "https://github.com/vapor/vapor.git", from: "3.3.0"),
+        .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.2.3")
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -20,7 +21,8 @@ let package = Package(
         .target(
             name: "Mailgun",
             dependencies: [
-                "Vapor"
+                "Vapor",
+                "AnyCodable"
             ]),
         .testTarget(
             name: "MailgunTests",
